@@ -2,10 +2,11 @@ const { v4 } = require('uuid');
 const AWS = require('aws-sdk');
 
 const addTodo = async (event) => {
-  const dynamodb = AWS.DynamoDB.DocumentClient();
+  // https://dynobase.dev/dynamodb-nodejs/
+  const dynamodb = new AWS.DynamoDB.DocumentClient();
 
   const { todo } = JSON.parse(event.body);
-  const createdAt = new Date();
+  const createdAt = new Date().toString();
   const id = v4();
 
   const newTodo = {
@@ -15,15 +16,25 @@ const addTodo = async (event) => {
     completed: false,
   };
 
-  await dynamodb.put({
-    TableName: 'TodoTable',
-    Item: newTodo,
-  });
+  try {
+    const result = await dynamodb
+      .put({
+        TableName: 'TodoTable',
+        Item: newTodo,
+      })
+      .promise();
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(newTodo),
-  };
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: 'New item has been created' }),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify(err),
+    };
+  }
 };
 
 module.exports = {

@@ -1,0 +1,12 @@
+@url = https://xsybl4d6ob.execute-api.us-east-1.amazonaws.com/ 
+
+###
+POST {{url}} 
+Content-Type: application/json
+
+{
+    "todo": "let's go to the beach"
+}
+
+###
+GET {{url}}
