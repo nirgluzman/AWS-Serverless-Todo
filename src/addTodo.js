@@ -16,6 +16,7 @@ const addTodo = async (event) => {
     completed: false,
   };
 
+  // https://dynobase.dev/dynamodb-nodejs/#put-item
   try {
     const result = await dynamodb
       .put({

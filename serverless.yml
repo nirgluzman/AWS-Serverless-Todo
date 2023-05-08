@@ -24,6 +24,24 @@ functions:
       - httpApi:
           path: /
           method: get
+  fetchTodo:
+    handler: src/fetchTodo.handler
+    events:
+      - httpApi:
+          path: /{id}
+          method: get
+  updateTodo:
+    handler: src/updateTodo.handler
+    events:
+      - httpApi:
+          path: /{id}
+          method: patch
+  deleteTodo:
+    handler: src/deleteTodo.handler
+    events:
+      - httpApi:
+          path: /{id}
+          method: delete
 
 resources:
   Resources:

@@ -5,8 +5,22 @@ POST {{url}}
 Content-Type: application/json
 
 {
-    "todo": "let's go to the beach"
+    "todo": "football"
 }
 
 ###
 GET {{url}}
+
+###
+GET {{url}}/3e484a84-7f30-4c29-9925-1d1a0ad4b4b
+
+###
+PATCH {{url}}/e36ad20c-f37d-4a33-901c-bb85d246d603
+Content-Type: application/json
+
+{
+    "completed": "true"
+}
+
+###
+DELETE {{url}}/0395b058-f711-466f-b017-bd4ef3b3cb75

@@ -1,19 +1,28 @@
 const AWS = require('aws-sdk');
 
-const fetchTodos = async (event) => {
+const fetchTodo = async (event) => {
   const dynamodb = new AWS.DynamoDB.DocumentClient();
+  const { id } = event.pathParameters;
 
-  // https://dynobase.dev/dynamodb-nodejs/#scan
+  // https://dynobase.dev/dynamodb-nodejs/#get-item
   try {
     const result = await dynamodb
-      .scan({
+      .get({
         TableName: 'TodoTable',
+        Key: { id },
       })
       .promise();
 
+    if (!result.Item) {
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ message: 'ID not found' }),
+      };
+    }
+
     return {
       statusCode: 200,
-      body: JSON.stringify(result.Items),
+      body: JSON.stringify(result.Item),
     };
   } catch (err) {
     console.log(err);
@@ -25,5 +34,5 @@ const fetchTodos = async (event) => {
 };
 
 module.exports = {
-  handler: fetchTodos,
+  handler: fetchTodo,
 };
